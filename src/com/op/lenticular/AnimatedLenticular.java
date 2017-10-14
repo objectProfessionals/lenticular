@@ -9,20 +9,20 @@ import java.io.IOException;
 public class AnimatedLenticular extends Base {
     private static final String HORIZ = "horiz";
     private static final String VERT = "vert";
-    private static String RINGS = "rings";
+    private static String DROPS = "drops";
+    private static String SPIN = "spin";
     private static String LINEAR = "linear";
     private static String DOTS = "dots";
     private static String DOTS_A4 = "dotsA4";
     private static String SPIRAL = "spiral";
     private static String SINE = "sine";
     private static String LAND = "land";
-    private static String SPIN = "spin";
     private static String TEXT = "text";
     private static String FLOWERS = "flowers";
     private static String VIRGA = "virga";
     private static String PORT = "portrait";
     private static String BLANK = "blank";
-    private String type = RINGS;
+    private String type = SPIN;
     private String direction = HORIZ;
     private int numPics = 15;
     private int stripThick = 1;
@@ -116,7 +116,7 @@ public class AnimatedLenticular extends Base {
     }
 
     private void addAlignmentH(Graphics2D opG) {
-        double mm = 2.0;
+        double mm = 4.0;
         int edge = (int) (dpi * (mm / i2mm));
         int d = (stripThick * numPics);
         opG.setColor(Color.BLACK);

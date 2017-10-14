@@ -9,16 +9,17 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 
-public class RingAnimationCreate extends Base {
+public class AnimationCreate extends Base {
 
-    private boolean addText = false;
     private static final String HORIZ = "horiz";
     private static final String VERT = "vert";
     private String direction = HORIZ;
     private static String FLOWERS = "flowers";
-    private static String RINGS = "rings";
-    private static String SINE = "sine";
+    private static String DROPS = "drops";
     private static String SPIN = "spin";
+    private static String WIND = "wind";
+
+    private static String SINE = "sine";
     private static String LINEAR = "linear";
     private static String DOTS = "dots";
     private static String DOTS_A4 = "dotsA4";
@@ -27,11 +28,10 @@ public class RingAnimationCreate extends Base {
     private static String TEXT = "text";
     private static String PORT = "portrait";
     private static String TORN = "tornado";
-    private static String WIND = "wind";
     private static String VIRGA = "virga";
     private static String CUFF = "cuff";
     private static String BLANK = "blank";
-    private String type = RINGS;
+    private String type = SPIN;
     private String dir = host + direction + "/";
     private String extPng = ".png";
     private String name = "H";
@@ -45,10 +45,11 @@ public class RingAnimationCreate extends Base {
     private boolean readImage = false;
     private BufferedImage rdImage;
     private String readFile = "virga.png";
+    private boolean addText = true;
     private double frSc = 2;
     private double wmm = 100; //95;
     private double hmm = 100; //95;
-    private double radmm = 2.50;
+    private double radmm = 5;
     private double sqmm = 5.0;
     private int w;
     private int h;
@@ -74,7 +75,7 @@ public class RingAnimationCreate extends Base {
     private String fontFile = host + "fonts/NEWTOWN.TTF";
 
     public static void main(String[] args) {
-        RingAnimationCreate test = new RingAnimationCreate();
+        AnimationCreate test = new AnimationCreate();
         try {
             test.createImage();
             // test.createColors();
@@ -222,7 +223,7 @@ public class RingAnimationCreate extends Base {
         System.out.println("Drawing image...");
         drawBorder();
         for (int n = 0; n < num; n++) {
-            if (isType(RINGS)) {
+            if (isType(DROPS)) {
                 drawRings(frame, n);
             } else if (isType(LINEAR)) {
                 drawLinear(frame, n);
@@ -328,8 +329,8 @@ public class RingAnimationCreate extends Base {
         if (drawBorder) {
             opG.setColor(fg);
             double bordermm = 1.0;
-            double border = (dpi * (bordermm / i2mm));
-            double rad = (dpi * (radmm / i2mm));
+            double border = (dpi * (frSc*bordermm / i2mm));
+            double rad = (dpi * (frSc*radmm / i2mm));
             Shape shape = new RoundRectangle2D.Double(0, 0, w, h, rad * 2,
                     rad * 2);
             Area area = new Area(shape);
@@ -680,7 +681,7 @@ public class RingAnimationCreate extends Base {
                 rad = ((getNextRandomDouble()));
                 off = ((0.5 + 0.5 * getNextRandomDouble()));
                 off2 = (0.5 + 0.5 * getNextRandomDouble());
-            } else if (isType(RINGS)) {
+            } else if (isType(DROPS)) {
                 rad = ((0.5 + 0.5 * getNextRandomDouble()));
                 off = (getNextRandomDouble());
                 while (isInside(x, y, rad, frSc * 300)) {
@@ -744,7 +745,7 @@ public class RingAnimationCreate extends Base {
 
     private void initStatics() {
         System.out.println("Started initStatics...");
-        if (isType(RINGS)) {
+        if (isType(DROPS)) {
             num = 20;
             rnd = 9;
         } else if (isType(FLOWERS)) {
