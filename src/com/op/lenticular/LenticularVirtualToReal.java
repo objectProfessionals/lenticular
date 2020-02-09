@@ -10,10 +10,11 @@ import java.io.IOException;
 
 public class LenticularVirtualToReal extends Base {
 
-    String type = "real";
-    String file = "minionsA43";
-    String dir = host + "vert/" + type + "/";
+    String type = "dots";
+    String file = "dots2";
+    String dir = host + "virtual2real/" + type + "/";
     double dpi = 600;
+    double lpi = 40;
     double frSc = 1;
 
     int w = 0;
@@ -77,7 +78,7 @@ public class LenticularVirtualToReal extends Base {
     private void drawStrips(Graphics2D opG) {
         try {
             opG.setColor(Color.BLACK);
-            int th = (int) (dpi * frSc / 40.0);
+            int th = (int) (dpi * frSc / lpi);
             int xx = 0;
             int tt = th / 2;
             for (int x = 0; x + th < w; x = x + th) {

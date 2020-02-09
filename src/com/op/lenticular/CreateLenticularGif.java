@@ -6,23 +6,19 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class AnimatedLenticular extends Base {
-    private static final String HORIZ = "horiz";
-    private static final String VERT = "vert";
-    private static String DROPS = "drops";
-    private static String SPIN = "spin";
-    private static String LINEAR = "linear";
-    private static String DOTS = "dots";
-    private static String DOTS_A4 = "dotsA4";
-    private static String SPIRAL = "spiral";
-    private static String SINE = "sine";
-    private static String LAND = "land";
-    private static String TEXT = "text";
-    private static String FLOWERS = "flowers";
-    private static String VIRGA = "virga";
-    private static String PORT = "portrait";
-    private static String BLANK = "blank";
-    private String type = SPIN;
+import static com.op.lenticular.CreateAnimationImages.HORIZ;
+import static com.op.lenticular.CreateAnimationImages.SPIN;
+import static com.op.lenticular.CreateAnimationImages.DOTS;
+import static com.op.lenticular.CreateAnimationImages.DROPS;
+import static com.op.lenticular.CreateAnimationImages.FLOWERS;
+import static com.op.lenticular.CreateAnimationImages.LAND;
+import static com.op.lenticular.CreateAnimationImages.LINEAR;
+import static com.op.lenticular.CreateAnimationImages.SINE;
+import static com.op.lenticular.CreateAnimationImages.TORN;
+import static com.op.lenticular.CreateAnimationImages.TEXT;
+
+public class CreateLenticularGif extends Base {
+    private String type = TORN;
     private String direction = HORIZ;
     private int numPics = 15;
     private int stripThick = 1;
@@ -56,7 +52,7 @@ public class AnimatedLenticular extends Base {
     }
 
     private static void createImageFile() throws IOException, Exception {
-        AnimatedLenticular mr = new AnimatedLenticular();
+        CreateLenticularGif mr = new CreateLenticularGif();
         mr.createImageFiles();
     }
 

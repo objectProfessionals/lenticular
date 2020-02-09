@@ -9,29 +9,29 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 
-public class AnimationCreate extends Base {
+public class CreateAnimationImages extends Base {
 
-    private static final String HORIZ = "horiz";
-    private static final String VERT = "vert";
+    protected static final String HORIZ = "horiz";
+    protected static final String VERT = "vert";
     private String direction = HORIZ;
-    private static String FLOWERS = "flowers";
-    private static String DROPS = "drops";
-    private static String SPIN = "spin";
+    protected static String FLOWERS = "flowers";
+    protected static String DROPS = "drops";
+    protected static String SPIN = "spin";
     private static String WIND = "wind";
 
-    private static String SINE = "sine";
-    private static String LINEAR = "linear";
-    private static String DOTS = "dots";
-    private static String DOTS_A4 = "dotsA4";
-    private static String SPIRAL = "spiral";
-    private static String LAND = "land";
-    private static String TEXT = "text";
-    private static String PORT = "portrait";
-    private static String TORN = "tornado";
-    private static String VIRGA = "virga";
-    private static String CUFF = "cuff";
-    private static String BLANK = "blank";
-    private String type = SPIN;
+    protected static String SINE = "sine";
+    protected static String LINEAR = "linear";
+    protected static String DOTS = "dots";
+    protected static String DOTS_A4 = "dotsA4";
+    protected static String SPIRAL = "spiral";
+    protected static String LAND = "land";
+    protected static String TEXT = "text";
+    protected static String PORT = "portrait";
+    protected static String TORN = "tornado";
+    protected static String VIRGA = "virga";
+    protected static String CUFF = "cuff";
+    protected static String BLANK = "blank";
+    private String type = LAND;
     private String dir = host + direction + "/";
     private String extPng = ".png";
     private String name = "H";
@@ -75,7 +75,7 @@ public class AnimationCreate extends Base {
     private String fontFile = host + "fonts/NEWTOWN.TTF";
 
     public static void main(String[] args) {
-        AnimationCreate test = new AnimationCreate();
+        CreateAnimationImages test = new CreateAnimationImages();
         try {
             test.createImage();
             // test.createColors();
@@ -108,6 +108,8 @@ public class AnimationCreate extends Base {
         System.out.println("Creating colors image...");
         String src = dir + type
                 + "/";
+
+
         String opName = type + name + "COLS" + extPng;
         File fFile1 = new File(src + opName);
         savePNGFile(bgImage, fFile1, dpi);
@@ -134,6 +136,7 @@ public class AnimationCreate extends Base {
         }
         w = (int) ((frSc*wmm * dpi / i2mm));
         h = (int) ((frSc*hmm * dpi / i2mm));
+        initDir();
         initStatics();
         initColors();
         initCenters();
@@ -142,6 +145,13 @@ public class AnimationCreate extends Base {
             drawImage(f);
         }
         System.out.println("Finished");
+    }
+
+    private void initDir() {
+        File d = new File(dir+type);
+        if (!d.exists()) {
+            d.mkdir();
+        }
     }
 
     private void initBackground() {
