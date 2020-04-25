@@ -11,7 +11,7 @@ import java.io.IOException;
 public class LenticularVirtualToReal extends Base {
 
     String type = "dots";
-    String file = "dots2";
+    String file = "rain";
     String dir = host + "virtual2real/" + type + "/";
     double dpi = 600;
     double lpi = 40;
