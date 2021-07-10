@@ -11,9 +11,9 @@ import java.io.*;
 
 public class CreateLenticularFromImages extends Base {
 
-    private String dir = host + "fromImages/";
+    private String dir = host + "slit/sphere2/";
     private String ipImageName = "";
-    private String opImageName = "iceland";
+    private String opImageName = "sphere2";
     private String ext = ".png";
     private BufferedImage opImage;
     private Graphics2D opG;
@@ -23,8 +23,8 @@ public class CreateLenticularFromImages extends Base {
     private double dpi = 600;
     private double ppf = 1;
     private int num = 15;
-    private double printWmm = 297;
-    private double printHmm = 210;
+    private double printWmm = 210;
+    private double printHmm = 297;
     private double in2mm = 25.4;
 
     private String fName = "SedgwickAve-Regular.ttf";
@@ -32,6 +32,7 @@ public class CreateLenticularFromImages extends Base {
     private float fontScale = 200;
     private Color fontCol = Color.WHITE;
     private Font font;
+    private boolean addText = false;
 
     public static void main(String[] args) {
         CreateLenticularFromImages test = new CreateLenticularFromImages();
@@ -49,13 +50,13 @@ public class CreateLenticularFromImages extends Base {
             drawImage(f);
         }
         addAlignment();
-        addPrintBorder();
+        //addPrintBorder();
         saveImage();
         System.out.println("Finished");
     }
 
     private void init() throws IOException, FontFormatException {
-        File inputFile = new File(dir + ipImageName + "1" + ext);
+        File inputFile = new File(dir + "0001" + ext);
         BufferedImage ipImage = ImageIO.read(inputFile);
         w = ipImage.getWidth();
         h = ipImage.getHeight();
@@ -65,15 +66,18 @@ public class CreateLenticularFromImages extends Base {
         opG.setColor(Color.WHITE);
         opG.fillRect(0, 0, w, h);
 
-        InputStream is = new BufferedInputStream(new FileInputStream(dir + fName));
-        font = Font.createFont(Font.TRUETYPE_FONT, is);
-        float fontH = fontScale;
-        font = font.deriveFont(Font.BOLD, fontH);
-
+        if (addText) {
+            InputStream is = new BufferedInputStream(new FileInputStream(dir + fName));
+            font = Font.createFont(Font.TRUETYPE_FONT, is);
+            float fontH = fontScale;
+            font = font.deriveFont(Font.BOLD, fontH);
+        }
     }
 
     private void drawImage(double frame) throws IOException, FontFormatException {
-        File inputFile = new File(dir + ipImageName + ((int) frame) + ext);
+        String padded = Integer.toString((int)frame+10000).substring(1);
+
+        File inputFile = new File(dir + ipImageName + padded + ext);
         System.out.println(inputFile.getName());
         BufferedImage ipImage = ImageIO.read(inputFile);
         addText(ipImage, (int) frame);
@@ -86,6 +90,9 @@ public class CreateLenticularFromImages extends Base {
     }
 
     private void addText(BufferedImage ipImage, int frame) throws IOException, FontFormatException {
+        if (!addText) {
+            return;
+        }
         Graphics2D ipG = (Graphics2D) ipImage.getGraphics();
         ipG.setFont(font);
         ipG.setColor(fontCol);
@@ -108,7 +115,7 @@ public class CreateLenticularFromImages extends Base {
     private void addAlignment() {
         opG.setColor(Color.BLACK);
         int yOff = 4;
-        int xW = w / 100;
+        int xW = w / 25;
         int th = (int) (dpi / 40.0);
         for (int y = yOff; y < h; y = y + th) {
             opG.drawLine(0, y, xW, y);

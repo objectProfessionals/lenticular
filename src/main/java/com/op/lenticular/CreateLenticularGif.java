@@ -7,15 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static com.op.lenticular.CreateAnimationImages.HORIZ;
-import static com.op.lenticular.CreateAnimationImages.SPIN;
-import static com.op.lenticular.CreateAnimationImages.DOTS;
-import static com.op.lenticular.CreateAnimationImages.DROPS;
-import static com.op.lenticular.CreateAnimationImages.FLOWERS;
-import static com.op.lenticular.CreateAnimationImages.LAND;
-import static com.op.lenticular.CreateAnimationImages.LINEAR;
-import static com.op.lenticular.CreateAnimationImages.SINE;
 import static com.op.lenticular.CreateAnimationImages.TORN;
-import static com.op.lenticular.CreateAnimationImages.TEXT;
 
 public class CreateLenticularGif extends Base {
     private String type = TORN;

@@ -15,16 +15,6 @@ public class LensArrayVirtualToReal extends Base {
 //yRad = 23.36;
 //yNum = 300.32106164383561643835616438356
 
-    public static void main(String[] args) {
-        LensArrayVirtualToReal test = new LensArrayVirtualToReal();
-        try {
-            //test.createImage();
-            test.printLensPointsOrig(2, 100, 10, 1.35, 0.66);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     double ss = 1;
     //private String dir = "popims/10x10/";
     // private String dir = "popims/CreditCard/";
@@ -34,11 +24,12 @@ public class LensArrayVirtualToReal extends Base {
     // private String dir = "popims/scans/";
     // private String dir = "fresnelTech/D300/";
     // private String dir = "popims/Lytro/";
-    private String dir = host + "virtual2real/fresnelTech/";
+    private String dir = host + "virtual2real/popims/";
+    private String ext = ".jpg";
     private String extPng = ".png";
     private String extJpg = ".jpg";
-    private String name = "Virga";
-    //private String name = "circles";
+    //private String name = "Virga";
+    private String name = "a4scan";
     //private String name = "spheres";
     //private String name = "VirgaSculpt";
     private double yRad = -1;
@@ -57,7 +48,7 @@ public class LensArrayVirtualToReal extends Base {
     private double scaleY = 1;
     private int w;
     private int h;
-    private boolean popims = false;
+    private boolean popims = true;
     private int dpi = -1;
     private boolean onlyOutline = false;
     private final static int SAMPLE = 0;
@@ -67,18 +58,29 @@ public class LensArrayVirtualToReal extends Base {
     private final static int CC = 4;
     private final static int LYTRO = 5;
     private final static int D300 = 6;
-    private int size = SAMPLE;
+    private int size = A4;
     double i2mm = 25.4;
-    private static final double ROT = 0; //Math.PI;
+    private static final double ROT = Math.PI;
     private static final double SCALE = 1;
     double cos60 = Math.cos(Math.PI / 3);
     double borderFactor = 0.0;
     // double scaleFactor = 9204.0 / 3280.0;
     double scaleFactor = 0;
 
+    public static void main(String[] args) {
+        LensArrayVirtualToReal test = new LensArrayVirtualToReal();
+        try {
+            test.createImage();
+            //test.printLensPointsOrig(2, 100, 10, 1.35, 0.66);//fresnel
+            //test.printLensPointsOrig(2, 60.734108, 6.08488, 1.15, 0.061416/2);//popims
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void createImage() throws Exception {
         System.out.println("Loading images...");
-        String ipName = name + extPng;
+        String ipName = name + ext;
         String flName = dir + ipName;
         File inputFile = new File(flName);
         System.out.println("Loaded image : " + inputFile.getPath());
@@ -125,10 +127,11 @@ public class LensArrayVirtualToReal extends Base {
             } else if (size == A4) {
                 // A4
                 dpi = 720;
+                double fac = 14;
                 double facY = 1.0012;
-                yRad = 14.0 * facY;
+                yRad = fac * facY;
                 double facX = 0.98925;
-                xRad = facX * 14.0 / sin60;
+                xRad = facX * fac / sin60;
                 double wMM = 210;
                 double hMM = 297;
                 w = (int) (((double) dpi) * wMM / i2mm);

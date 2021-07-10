@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/lenticular.iml" filepath="$PROJECT_DIR$/.idea/lenticular.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lenticular_main.iml" filepath="$PROJECT_DIR$/.idea/modules/lenticular_main.iml" group="lenticular" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lenticular_test.iml" filepath="$PROJECT_DIR$/.idea/modules/lenticular_test.iml" group="lenticular" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lenticular.main.iml" filepath="$PROJECT_DIR$/.idea/modules/lenticular.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lenticular.test.iml" filepath="$PROJECT_DIR$/.idea/modules/lenticular.test.iml" />
     </modules>
   </component>
 </project>
