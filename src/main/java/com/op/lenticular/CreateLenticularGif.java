@@ -6,11 +6,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import static com.op.lenticular.CreateAnimationImages.HORIZ;
-import static com.op.lenticular.CreateAnimationImages.TORN;
+import static com.op.lenticular.CreateAnimationImages.*;
 
 public class CreateLenticularGif extends Base {
-    private String type = TORN;
+    private String type = CreateAnimationImages.type;
     private String direction = HORIZ;
     private int numPics = 15;
     private int stripThick = 1;

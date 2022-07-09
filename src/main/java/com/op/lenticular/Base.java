@@ -81,5 +81,53 @@ public class Base {
         }
     }
 
+    public static void saveJPGFile(BufferedImage opImage, String filePath, double dpi, float quality) {
+        try {
+            File outfile = new File(filePath);
+            // Find a jpeg writer
+            ImageWriter writer = null;
+            Iterator<ImageWriter> iter = ImageIO.getImageWritersByFormatName("jpg");
+            IIOMetadata metadata = null;
+            if (iter.hasNext()) {
+                writer = iter.next();
+                ImageWriteParam writeParam = writer.getDefaultWriteParam();
+                if (writeParam.canWriteCompressed()) {
+                    writeParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+                    writeParam.setCompressionQuality(0.05f);
+                }
+                ImageTypeSpecifier typeSpecifier = ImageTypeSpecifier
+                        .createFromBufferedImageType(BufferedImage.TYPE_INT_RGB);
+                metadata = writer.getDefaultImageMetadata(typeSpecifier, writeParam);
+                if (metadata.isReadOnly() || !metadata.isStandardMetadataFormatSupported()) {
+                    // continue;
+                }
+                double dpmm = dpi / 25.4;
+                IIOMetadataNode horiz = new IIOMetadataNode("HorizontalPixelSize");
+                horiz.setAttribute("value", Double.toString(dpmm));
+                IIOMetadataNode vert = new IIOMetadataNode("VerticalPixelSize");
+                vert.setAttribute("value", Double.toString(dpmm));
+                IIOMetadataNode dim = new IIOMetadataNode("Dimension");
+                dim.appendChild(horiz);
+                dim.appendChild(vert);
+                IIOMetadataNode root = new IIOMetadataNode("javax_imageio_1.0");
+                root.appendChild(dim);
+                metadata.mergeTree("javax_imageio_1.0", root);
+            }
+            // Prepare output file
+            ImageOutputStream ios = ImageIO.createImageOutputStream(outfile);
+            writer.setOutput(ios);
+            // Write the image
+            writer.write(null, new IIOImage(opImage, null, metadata), null);
+            // Cleanup
+            ios.flush();
+            writer.dispose();
+            ios.close();
+            opImage = null;
+            System.gc();
+            System.out.println("Saved " + filePath);
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
 
 }

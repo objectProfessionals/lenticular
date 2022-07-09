@@ -31,7 +31,9 @@ public class CreateAnimationImages extends Base {
     protected static String VIRGA = "virga";
     protected static String CUFF = "cuff";
     protected static String BLANK = "blank";
-    private String type = LAND;
+
+    protected static String type = WIND;
+
     private String dir = host + direction + "/";
     private String extPng = ".png";
     private String name = "H";
@@ -45,10 +47,10 @@ public class CreateAnimationImages extends Base {
     private boolean readImage = false;
     private BufferedImage rdImage;
     private String readFile = "virga.png";
-    private boolean addText = true;
-    private double frSc = 2;
-    private double wmm = 100; //95;
-    private double hmm = 100; //95;
+    private boolean addText = false;
+    private double frSc = 1;
+    private double wmm = 105; //95;
+    private double hmm = 138; //95;
     private double radmm = 5;
     private double sqmm = 5.0;
     private int w;
@@ -67,12 +69,17 @@ public class CreateAnimationImages extends Base {
     private double bgSat = 0.5;
     private double bgLight = 0.25;
     private boolean drawBorder = true;
+    private boolean borderRound = false;
     private double i2mm = 25.4;
     // private String s1 = "THANK YOU KABIR";
     private String s1 = "SANJAY & VIRGINIJA";
     private String s2 = "MARCH 30th 2014";
     private boolean drawBackground = true;
     private String fontFile = host + "fonts/NEWTOWN.TTF";
+//    private final int CAP = BasicStroke.CAP_ROUND;
+//    private final int JOIN = BasicStroke.JOIN_ROUND;
+    private final int CAP = BasicStroke.CAP_SQUARE;
+    private final int JOIN = BasicStroke.JOIN_MITER;
 
     public static void main(String[] args) {
         CreateAnimationImages test = new CreateAnimationImages();
@@ -302,12 +309,15 @@ public class CreateAnimationImages extends Base {
             double x = (w / 2) - rr;
             double y = (h / 2) - rr;
             int str = (int) (frSc * ((double) w) / ((double) (num)));
-            opG.setStroke(new BasicStroke(str, BasicStroke.CAP_ROUND,
-                    BasicStroke.JOIN_ROUND));
+            setStroke(str, CAP, JOIN);
             Color col = getFadedColor(c, 1);
             opG.setColor(col);
             opG.drawArc((int) x, (int) y, (int) rr * 2, (int) rr * 2, 0, 360);
         }
+    }
+
+    private void setStroke(int str, int cap, int join) {
+        opG.setStroke(new BasicStroke(str, cap, join));
     }
 
     private void drawVirga(int frame, int n) {
@@ -336,18 +346,28 @@ public class CreateAnimationImages extends Base {
     }
 
     private void drawBorder() {
+        opG.setColor(fg);
+        double bordermm = 1.0;
+        double border = (dpi * (frSc*bordermm / i2mm));
+        double rad = (dpi * (frSc*radmm / i2mm));
+        Area areaI = null;
         if (drawBorder) {
-            opG.setColor(fg);
-            double bordermm = 1.0;
-            double border = (dpi * (frSc*bordermm / i2mm));
-            double rad = (dpi * (frSc*radmm / i2mm));
-            Shape shape = new RoundRectangle2D.Double(0, 0, w, h, rad * 2,
-                    rad * 2);
+            double r1 = 0;
+            double r2 = 0;
+            if (borderRound) {
+                r1 = rad * 2;
+                r2 = (rad - border) * 2;
+            } else {
+                r1 = 0;
+                r2 = 0;
+            }
+
+            Shape shape = new RoundRectangle2D.Double(0, 0, w, h, r1,
+                    r1);
             Area area = new Area(shape);
             Shape shapeI = new RoundRectangle2D.Double(border, border, w - 2
-                    * border, h - 2 * border, (rad - border) * 2,
-                    (rad - border) * 2);
-            Area areaI = new Area(shapeI);
+                    * border, h - 2 * border,r2, r2);
+            areaI = new Area(shapeI);
             area.subtract(areaI);
             opG.setClip(area);
             opG.fillRect(0, 0, w, h);
@@ -402,8 +422,7 @@ public class CreateAnimationImages extends Base {
             double zF = key * hf;
             opG.setColor(c.col);
             int str = (int)(frSc * 75) + (int) (zF * (frSc * 75 * c.off));
-            opG.setStroke(new BasicStroke(str, BasicStroke.CAP_ROUND,
-                    BasicStroke.JOIN_BEVEL));
+            setStroke(str, CAP, JOIN);
             opG.drawLine((int) lp.getX(), (int) lp.getY(), (int) p.getX(),
                     (int) p.getY());
         }
@@ -456,8 +475,7 @@ public class CreateAnimationImages extends Base {
             // opG.setColor(col);
             opG.setColor(c.col);
             int str = (int)(frSc * 50) + (int) (zF * (frSc * 200));
-            opG.setStroke(new BasicStroke(str, BasicStroke.CAP_ROUND,
-                    BasicStroke.JOIN_BEVEL));
+            setStroke(str, CAP, JOIN);
             opG.drawLine((int) lp.getX(), (int) lp.getY(), (int) p.getX(),
                     (int) p.getY());
         }
@@ -470,8 +488,7 @@ public class CreateAnimationImages extends Base {
         Color col = c.col;
         opG.setColor(col);
         int str = (int) (frSc * 16 * num);
-        opG.setStroke(new BasicStroke(str, BasicStroke.CAP_ROUND,
-                BasicStroke.JOIN_BEVEL));
+        setStroke(str, CAP, JOIN);
         double f = ((double) (frame + 1)) / ((double) frames);
         double nn = ((double) (n + 1)) / ((double) num);
         int nT = 6;
@@ -584,8 +601,7 @@ public class CreateAnimationImages extends Base {
             // opG.setColor(col);
             opG.setColor(c.col);
             int str = (int)(frSc * 75) + (int) (zF * (frSc * 150 * c.off));
-            opG.setStroke(new BasicStroke(str, BasicStroke.CAP_ROUND,
-                    BasicStroke.JOIN_BEVEL));
+            setStroke(str, CAP, JOIN);
             opG.drawLine((int) lp.getX(), (int) lp.getY(), (int) p.getX(),
                     (int) p.getY());
         }
@@ -610,8 +626,7 @@ public class CreateAnimationImages extends Base {
         // opG.setColor(c.col);
         double strF = (1 - frr);
         int str = (int) (frSc * 50 + (strF * frSc * 200 * c.rad));
-        opG.setStroke(new BasicStroke(str, BasicStroke.CAP_ROUND,
-                BasicStroke.JOIN_ROUND));
+        setStroke(str, CAP, JOIN);
         float fade = 0.5f + (0.5f * (float) strF);
         Color col = getFadedColor(c, 1);
         opG.setColor(col);
@@ -642,8 +657,7 @@ public class CreateAnimationImages extends Base {
         for (double a = 0; a < 2 * Math.PI; a = a + aInc) {
             double aa = a + ang;
             int str = (int) (frSc * 250 * c.rad * strf);
-            opG.setStroke(new BasicStroke(str, BasicStroke.CAP_ROUND,
-                    BasicStroke.JOIN_ROUND));
+            setStroke(str, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
             int x1 = (int) (c.x + (ir * Math.cos(aa)));
             int y1 = (int) (c.y + (ir * Math.sin(aa)));
             int x2 = (int) (c.x + (or * Math.cos(aa)));
@@ -762,7 +776,7 @@ public class CreateAnimationImages extends Base {
             num = 20;
             rnd = 8;
         } else if (isType(LINEAR)) {
-            num = 30;
+            num = 100;
         } else if (isType(DOTS)) {
             num = 25;
             rnd = 12;
@@ -946,11 +960,12 @@ public class CreateAnimationImages extends Base {
         double cos = Math.cos(ang);
         double sin = Math.sin(ang);
         Center c = centers.get(i);
-        double rx = c.rad * cos;
-        double ry = c.rad * sin;
+        double rF = 5;
+        double rx = rF*c.rad * cos;
+        double ry = rF*c.rad * sin;
         double x = c.x;
         double y = c.y;
-        double radF = 2.0 * c.rad / h;
+        double radF = 200.0 * c.rad / h;
         opG.setStroke(new BasicStroke((int) (((double) 1) * radF),
                 BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
         opG.setColor(c.col);
